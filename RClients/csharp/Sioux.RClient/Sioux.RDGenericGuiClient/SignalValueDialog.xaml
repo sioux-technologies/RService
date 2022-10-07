@@ -1,0 +1,32 @@
+<Window x:Class="Sioux.RDGenericGuiClient.SignalValueDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:viewModel="clr-namespace:Sioux.RDGenericGuiClient.ViewModel"
+        mc:Ignorable="d"
+        Title="Signal Value" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance viewModel:SignalValueDialogViewModel}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Editors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ContentPresenter Content="{Binding}"
+                          ContentTemplateSelector="{Binding Path=TemplateSelector}"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button Margin="10" Click="ButtonCancel_OnClick"><TextBlock Text="Cancel"/></Button>
+        <Button Margin="10" Click="ButtonOk_OnClick"><TextBlock Text="Ok"/></Button>
+        </StackPanel>
+    </Grid>
+</Window>

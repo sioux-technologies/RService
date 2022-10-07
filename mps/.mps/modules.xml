@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MPSProject">
+    <projectModules>
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver/eu.sioux.mps.rserver.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.mpsplugin/eu.sioux.mps.rserver.mpsplugin.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.mpsplugin.ide/eu.sioux.mps.rserver.mpsplugin.ide.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.basetypes/eu.sioux.mps.rserver.basetypes.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.client/eu.sioux.mps.rserver.client.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.client.boost/eu.sioux.mps.rserver.client.boost.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.client/sandbox/eu.sioux.mps.rserver.client.sandbox.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.mps.rserver.client.runtime/eu.sioux.mps.rserver.client.runtime.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.todos/eu.sioux.todos.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/eu.sioux.todos/sandbox/eu.sioux.todos.sandbox.msd" folder="" />
+    </projectModules>
+  </component>
+</project>

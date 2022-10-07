@@ -1,0 +1,70 @@
+<ResourceDictionary x:Class="Sioux.RDGenericGuiClient.Editors" 
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:viewModel="clr-namespace:Sioux.RDGenericGuiClient.ViewModel">
+    <DataTemplate x:Key="RdSignal" DataType="{x:Type viewModel:RdNodePropertySignalViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Path=LastCall}" Margin="5,0" />
+            <TextBlock Text="{Binding Path=LastValue}" Margin="5,0" />
+            <Button Click="ButtonSignalFire_OnClick">
+                <TextBlock Text="Fire" />
+            </Button>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RdEditorUnknown" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Path=Value}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorReadOnly" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Path=Value}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RdEditorString" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <TextBox Text="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorBoolean" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <CheckBox IsChecked="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorDouble" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:DoubleUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorInt16" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:ShortUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorInt32" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:IntegerUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorInt64" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:LongUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorByte" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:ByteUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorUInt16" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:ShortUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorUInt32" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:IntegerUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsUndoEnabled="False" />
+    </DataTemplate>
+    <DataTemplate x:Key="RdEditorUInt64" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <xctk:LongUpDown Value="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" Minimum="0" IsUndoEnabled="False" />
+    </DataTemplate>
+    <!-- <DataTemplate x:Key="PropertyGridEditorEnum" DataType="{x:Type viewModel:RdNodePropertyViewModel}"> -->
+    <!--     <ComboBox ItemsSource="{Binding Path=EnumItems, Delay=1000}" -->
+    <!--               SelectedItem="{Binding Path=Value}"> -->
+    <!--         <ComboBox.ItemTemplate> -->
+    <!--             <DataTemplate> -->
+    <!--                 <TextBlock Text="{Binding Converter={StaticResource HumanizerConverter}}"/> -->
+    <!--             </DataTemplate> -->
+    <!--         </ComboBox.ItemTemplate> -->
+    <!--     </ComboBox> -->
+    <!-- </DataTemplate> -->
+    <DataTemplate x:Key="RdEditorGuid" DataType="{x:Type viewModel:IValueEditorViewModel}">
+        <TextBox Text="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" IsUndoEnabled="False" />
+    </DataTemplate>
+</ResourceDictionary>

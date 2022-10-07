@@ -1,0 +1,138 @@
+@startuml
+
+' Based on an aricle "How JetBrains Meta Programming System (MPS) Identifies Things" (https://blog.logv.ws/2021/04/21/how-jetbrains-mps-identifies-things/) by Kolja Dummann
+
+package MPS.model
+{
+    class SRepository
+    {
+    }
+    SRepository "1" *-- "*" SModule: contains
+    
+    '==============================================================================================
+    ' Module
+    '==============================================================================================
+
+    ' If MPS encounters a model or module with the same id the second time it will not load it.
+    class SModule 
+    {
+        moduleId {globally unique}
+    }
+
+    class Solution extends SModule
+    class Language extends SModule
+    {
+        languageId = moduleId
+    }
+    class DevKit extends SModule
+    Solution "1" *-- "1" ModelRoot: has
+    Language "1" *-- "1" ModelRoot: has
+
+    '==============================================================================================
+    ' Model 
+    '==============================================================================================
+
+    ' Not important for identities
+    class ModelRoot 
+    {
+        //ModelPersistence
+        //Facets
+    }
+    ModelRoot "1" *-- "*" SModel: owns
+
+    ' If MPS encounters a model or module with the same id the second time it will not load it.
+    ' A model id can be globally unique in which case the module, which contains a model,
+    ' isn’t used for calculating the identity of a model. If a model id is not globally unique
+    ' it is bound to the module.
+    interface SModelId
+    
+    ' RegularSModelId {globally unique} {UUID based} [default]
+    '   Model ids created by MPS
+    class RegularSModelId implements SModelId
+    
+    ' ForeignSModelId {globally unique} {String based}
+    '   Should be globally unique (useful in custom persistence scenarios where the model id isn’t chosen by MPS)
+    class ForeignSModelId implements SModelId
+    
+    ' IntegerSModelId {module unique} {Integer based}
+    '   Useful when it’s ok for you to combine module and model identity
+    class IntegerSModelId implements SModelId
+    
+    ' It is possible to move a model to a different module without changing its identity. 
+    ' But moving a model might break code generation or compilation because the module
+    ' is used for configuring aspects like class loading and compilation dependencies.
+    class SModel
+    {
+        static SModel findModelByName(String)
+    }
+    SModel *-- SModelId: modelId {module | globally unique}
+    SModel "1" *-- "*" SNode : roots
+    
+
+    '==============================================================================================
+    ' Node
+    '==============================================================================================
+
+    ' {model unique}
+    ' To construct the complete identity of a node you will need the model id and the node id.
+    ' It allows for optimization: When nodes are copied between models they, if no conflict occurs, keep their original node ids. When more than one node is copied at a time MPS can easily manage to keep references between the nodes intact.
+    interface SNodeId
+    ' {long based}
+    class Regular implements SNodeId
+    ' {string based}
+    class Foreign implements SNodeId
+
+    class SNode
+    {
+    }
+    SNode *-- SNodeId: nodeId
+    SNode "1" *-- "*" SNode : children
+    SNode "1" o-- "0..1" SNode : parent
+    SNode "1" *-- "*" SProperty
+    SNode "1" *-- "0..1" SReference: ref
+    
+    class SProperty
+    {
+    }
+    
+    ' While it doesn’t use the same class a reference between nodes is technically a SNodePointer. 
+    ' A reference stores the same information: model id and node id of the reference target.
+    ' This behavior allows MPS to update the model part of a reference without changing the node id part.
+    ' The result is that self-contained groups of nodes can be copied while preserving the references between each other.
+    class SReference 
+    {
+    }
+    SReference "1" o-- "0..1" SNode : target
+    SReference *-- SModelId
+    SReference *-- SNodeId
+    
+    ' Constructs the complete identity of a node you will need the model id and the node id.
+    ' Can be safely stored and parsed from a string, it is useful in scenarios where you need to exchange node identity. 
+    ' A node pointer is for instance what the Copy Node URL action uses to encode the node into the URL.
+    class SNodePointer
+    SNodePointer *-- SModelId
+    SNodePointer *-- SNodeId
+}
+package MPS.metamodel
+{
+    '==============================================================================================
+    ' Languages, Concepts, Roles, and Properties
+    '==============================================================================================
+
+    class SConcept extends SNode
+    {
+        conceptId {language unique}
+    }
+    SConcept "1" *-- "*" SConceptFeature
+
+    ' Role
+    abstract class SConceptFeature
+    {
+        id {concept unique}
+    }
+
+    class SReferenceLink implements SConceptFeature
+    class SContainmentLink implements SConceptFeature
+
+}
+@enduml

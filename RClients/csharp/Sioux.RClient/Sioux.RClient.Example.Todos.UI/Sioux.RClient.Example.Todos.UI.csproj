@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.97" />
+        <PackageReference Include="MathConverter" Version="1.2.1.6" />
+        <PackageReference Include="ReactiveUI" Version="17.1.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sioux.RClient.Example.Todos\Sioux.RClient.Example.Todos.csproj" />
+    </ItemGroup>
+
+</Project>

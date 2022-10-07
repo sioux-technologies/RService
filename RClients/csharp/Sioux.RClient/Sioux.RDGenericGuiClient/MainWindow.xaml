@@ -1,0 +1,127 @@
+﻿<Window x:Class="Sioux.RDGenericGuiClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:math="http://hexinnovation.com/math"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:rd="clr-namespace:JetBrains.Rd;assembly=JetBrains.RdFramework"
+        xmlns:viewModel="clr-namespace:Sioux.RDGenericGuiClient.ViewModel"
+        mc:Ignorable="d"
+        Title="RD Generic Gui Client" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance viewModel:ApplicationViewModel}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Editors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <math:MathConverter x:Key="MathConverter" />
+            <ObjectDataProvider x:Key="IdKindValues" MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="rd:IdKind"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Click="btnOpen_OnClick">
+                <TextBlock Text="Open Assembly"/>
+            </Button>
+            <TextBlock Text="{Binding Path=ServiceType.FullName}"/>
+            <TextBlock Margin="10, 0" Text="{Binding Path=ConnectionStatus}" />
+            <Button Click="btnConnect_OnClick" IsEnabled="{Binding Path=CanConnect}">
+                <TextBlock Text="Connect" />
+            </Button>
+            <Button Click="btnDisconnect_OnClick" IsEnabled="{Binding Path=CanConnect, Converter={StaticResource MathConverter}, ConverterParameter=!x}">
+                <TextBlock Text="Disconnect" />
+            </Button>  
+            <xctk:ShortUpDown 
+                Value="{Binding Path=Port}" 
+                IsEnabled="{Binding Path=IsConnected, Converter={StaticResource MathConverter}, ConverterParameter=!x}" />
+            <ComboBox ItemsSource="{Binding Source={StaticResource IdKindValues}}"
+                      SelectedItem="{Binding Path=IdKind}" 
+                      IsEnabled="{Binding Path=IsConnected, Converter={StaticResource MathConverter}, ConverterParameter=!x}"/>
+        </StackPanel>
+        
+        <TreeView Grid.Row="1" Grid.Column="0" x:Name="TreeView" SelectedItemChanged="TreeView_OnSelectedItemChanged"
+                  ItemsSource="{Binding Path=ServiceViewModel}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:RdNodeViewModel}"
+                                          ItemsSource="{Binding Path=Children}">
+                    <TextBlock Text="{Binding Path=Name}">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove" 
+                                          Command="{Binding Path=RemoveCommand}"/>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:RdNodeChildViewModel}"
+                                          ItemsSource="{Binding Path=Items}">
+                    <TextBlock Text="{Binding Path=Name}">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add item..." 
+                                          IsEnabled="{Binding Path=CanAddToList}"
+                                          ItemsSource="{Binding Path=SupportedListItemTypes}">
+                                    <MenuItem.ItemContainerStyle>
+                                        <Style TargetType="{x:Type MenuItem}">
+                                            <Setter Property="Command" Value="{Binding}" />
+                                        </Style>
+                                    </MenuItem.ItemContainerStyle>
+                                    <MenuItem.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ListItemType.Name}" 
+                                                       ToolTip="{Binding Path=ListItemType.FullName}" />
+                                        </DataTemplate>
+                                    </MenuItem.ItemTemplate>
+                                </MenuItem>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <GridSplitter Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="3" />
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Loaded:" />
+                <TextBlock Text="{Binding Path=SelectedNode.Name}" />
+            </StackPanel>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=SelectedNode.Properties}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Name}" />
+                            <TextBlock Text=": " />
+                            <ContentPresenter Content="{Binding}"
+                                              ContentTemplateSelector="{Binding Path=TemplateSelector}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+    </Grid>
+</Window>

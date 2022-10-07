@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.97" />
+      <PackageReference Include="DynamicData" Version="7.4.9" />
+      <PackageReference Include="Dynamitey" Version="2.0.10.189" />
+      <PackageReference Include="Humanizer.Core" Version="2.11.10" />
+      <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+      <PackageReference Include="JetBrains.RdFramework" Version="2021.3.1" />
+      <PackageReference Include="MathConverter" Version="1.2.1.6" />
+      <PackageReference Include="ReactiveUI" Version="17.1.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MathConverter, Version=1.2.1.6, Culture=neutral, PublicKeyToken=null">
+        <HintPath>C:\Users\fortuinm\.nuget\packages\mathconverter\1.2.1.6\lib\net40-client\MathConverter.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

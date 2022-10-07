@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DynamicData" Version="7.4.9" />
+      <PackageReference Include="JetBrains.RdFramework" Version="2021.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- TODO replace this with a nuget package -->
+      <ProjectReference Include="..\Sioux.RClient\Sioux.RClient.csproj" />
+    </ItemGroup>
+
+</Project>

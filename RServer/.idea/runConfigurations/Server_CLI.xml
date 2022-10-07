@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Server CLI" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="azul-13" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <module name="RServer.main" />
+    <option name="PROGRAM_PARAMETERS" value="server RServer-CLI" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,137 @@
+buildscript {
+    repositories {
+        maven { url 'https://www.myget.org/F/rd-snapshots/maven/' }
+        mavenCentral()
+    }
+
+    dependencies { classpath "com.jetbrains.rd:rd-gen:0.211.234" }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'java-library'
+    id 'application' // TODO remove. Was needed only for RServer CLI prototype
+}
+
+apply plugin: 'com.jetbrains.rdgen'
+
+group = 'eu.sioux.mps.rservice'
+version = '0.1.0'
+def mpsDir = project.hasProperty('mpsPath') ? new File("${mpsPath}").absolutePath : ""
+if(mpsDir.isEmpty() || mpsDir.isBlank()) {
+    throw new InvalidUserDataException("In local 'gradle.properties' file you should set 'mpsPath' to your local MPS installation path, e.g. mpsPath=C:\\Users\\<username>\\AppData\\Local\\JetBrains\\Toolbox\\apps\\MPS\\ch-0\\213.7172.958")
+}
+
+repositories {
+    maven { url 'https://www.myget.org/F/rd-snapshots/maven/' }
+    mavenCentral()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '11'
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '11'
+}
+
+dependencies {
+    // Don't confuse compile (superseded by implementation) with compileOnly
+    compileOnly 'com.jetbrains.rd:rd-gen:0.211.234'
+    // TODO: use de.itemis.mps:mps-gradle-plugin instead of local MPS installation. It allows to specify MPS version.
+    compileOnly files(
+            "${mpsDir}\\lib\\mps-openapi.jar",
+            "${mpsDir}\\lib\\mps-core.jar",
+            "${mpsDir}\\lib\\mps-platform.jar"
+    )
+    implementation 'com.jetbrains.rd:rd-framework:0.211.234'
+}
+
+application {
+    mainClassName = 'MainKt'
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'build/model-gen'
+}
+
+// !!!! Duplicates some classes causing linker/classloader error => DON'T USE
+//jar {
+//    /*manifest {
+//        attributes "Main-Class": "com.baeldung.fatjar.Application"
+//    }*/
+//
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
+//assemble.dependsOn(jar)
+
+task uberJar(type: Jar) {
+    archiveClassifier = 'uber'
+
+    from sourceSets.main.output
+    from sourceSets.main.allSource
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
+assemble.dependsOn(uberJar)
+
+task copyUberJarToMps(type: Sync) {
+    from "$buildDir/libs"
+    include "*uber*"
+    into "$projectDir/../mps/eu.sioux.mps.rserver/libs"
+}
+assemble.finalizedBy(copyUberJarToMps)
+
+rdgen {
+    def modelDir = new File(file('src/main/kotlin/model').absolutePath)
+    def csOutputClient = new File(file('../RClients/csharp/Sioux.RClient/Sioux.RClient/Generated/Client').absolutePath)
+    def csOutputServer = new File(file('../RClients/csharp/Sioux.RClient/Sioux.RClient/Generated/Server').absolutePath)
+    def csOutputSymmetric = new File(file('../RClients/csharp/Sioux.RClient/Sioux.RClient/Generated/Symmetric').absolutePath)
+    def ktOutput = new File(file('build/model-gen').absolutePath)
+
+    verbose = true
+    sources "$modelDir"
+    hashFolder = 'build/rdgen'
+    packages = "model"
+
+    generator {
+        language = "kotlin"
+//        transform = "asis" | "reversed" | "symmetric"
+        transform = "reversed"
+        root = "model.RServiceModel"
+        namespace = "eu.sioux.mps.rserver"
+        directory = "$ktOutput"
+    }
+
+    generator {
+        language = "csharp"
+        transform = "asis"
+        root = "model.RServiceModel"
+        namespace = "Sioux.RClient.Generated.Client"
+        directory = "$csOutputClient"
+    }
+
+    generator {
+        language = "csharp"
+        transform = "reversed"
+        root = "model.RServiceModel"
+        namespace = "Sioux.RClient.Generated.Server"
+        directory = "$csOutputServer"
+    }
+
+    generator {
+        language = "csharp"
+        transform = "symmetric"
+        root = "model.RServiceModel"
+        namespace = "Sioux.RClient.Generated.Symmetric"
+        directory = "$csOutputSymmetric"
+    }
+}
+
+// Effectively runs rdgen task before compileKotlin
+compileKotlin.dependsOn(tasks.getByName("rdgen"))
