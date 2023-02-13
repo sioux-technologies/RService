@@ -423,7 +423,7 @@
                                 </node>
                                 <node concept="2ShNRf" id="6Ks8zCw5Psh" role="33vP2m">
                                   <node concept="1pGfFk" id="6Ks8zCw5UnR" role="2ShVmc">
-                                    <ref role="37wK5l" to="6oxs:1zyYLgjXrmU" resolve="ServerConfiguration" />
+                                    <ref role="37wK5l" to="6oxs:1zyYLgjXrmU" resolve="Server.ServerConfiguration" />
                                     <node concept="2OqwBi" id="6Ks8zCw5Uom" role="37wK5m">
                                       <node concept="2OqwBi" id="6Ks8zCw5Uon" role="2Oq$k0">
                                         <node concept="2WthIp" id="6Ks8zCw5Uoo" role="2Oq$k0">

@@ -93,9 +93,6 @@
         <property id="1176718929932" name="isFinal" index="3TUv4t" />
         <child id="1068431790190" name="initializer" index="33vP2m" />
       </concept>
-      <concept id="1513279640923991009" name="jetbrains.mps.baseLanguage.structure.IGenericClassCreator" flags="ng" index="366HgL">
-        <property id="1513279640906337053" name="inferTypeParams" index="373rjd" />
-      </concept>
       <concept id="1068498886296" name="jetbrains.mps.baseLanguage.structure.VariableReference" flags="nn" index="37vLTw">
         <reference id="1068581517664" name="variableDeclaration" index="3cqZAo" />
       </concept>
@@ -1632,28 +1629,42 @@
         <ref role="3uigEE" to="bl6v:~RServer" resolve="RServer" />
       </node>
     </node>
-    <node concept="312cEg" id="6bUfznvlwzu" role="jymVt">
+    <node concept="312cEg" id="6pRuvYZSMmX" role="jymVt">
       <property role="TrG5h" value="sNodeChangeListeners" />
-      <node concept="3Tm6S6" id="6bUfznvltpw" role="1B3o_S" />
-      <node concept="3uibUv" id="6bUfznvlvZa" role="1tU5fm">
+      <node concept="3Tm6S6" id="6pRuvYZSMmY" role="1B3o_S" />
+      <node concept="3uibUv" id="6pRuvYZSMmZ" role="1tU5fm">
         <ref role="3uigEE" to="33ny:~List" resolve="List" />
-        <node concept="3uibUv" id="6bUfznvlwkl" role="11_B2D">
+        <node concept="3uibUv" id="6pRuvYZSMn0" role="11_B2D">
           <ref role="3uigEE" to="v18h:~Pair" resolve="Pair" />
-          <node concept="3uibUv" id="6bUfznvlwvL" role="11_B2D">
+          <node concept="3uibUv" id="6pRuvYZSMn1" role="11_B2D">
             <ref role="3uigEE" to="mhbf:~SModel" resolve="SModel" />
           </node>
-          <node concept="3uibUv" id="6bUfznvlwz1" role="11_B2D">
+          <node concept="3uibUv" id="6pRuvYZSMn2" role="11_B2D">
             <ref role="3uigEE" to="lw60:~SNodeChangeListener" resolve="SNodeChangeListener" />
           </node>
         </node>
       </node>
-      <node concept="2ShNRf" id="6EmrohVhFJy" role="33vP2m">
-        <node concept="1pGfFk" id="6EmrohVhRBy" role="2ShVmc">
-          <property role="373rjd" value="true" />
-          <ref role="37wK5l" to="33ny:~ArrayList.&lt;init&gt;()" resolve="ArrayList" />
+      <node concept="10QFUN" id="6pRuvYZTc6K" role="33vP2m">
+        <node concept="2ShNRf" id="6pRuvYZSNqQ" role="10QFUP">
+          <node concept="1pGfFk" id="6pRuvYZSTha" role="2ShVmc">
+            <ref role="37wK5l" to="33ny:~ArrayList.&lt;init&gt;()" resolve="ArrayList" />
+          </node>
+        </node>
+        <node concept="3uibUv" id="6pRuvYZTc6L" role="10QFUM">
+          <ref role="3uigEE" to="33ny:~List" resolve="List" />
+          <node concept="3uibUv" id="6pRuvYZTc6M" role="11_B2D">
+            <ref role="3uigEE" to="v18h:~Pair" resolve="Pair" />
+            <node concept="3uibUv" id="6pRuvYZTc6N" role="11_B2D">
+              <ref role="3uigEE" to="mhbf:~SModel" resolve="SModel" />
+            </node>
+            <node concept="3uibUv" id="6pRuvYZTc6O" role="11_B2D">
+              <ref role="3uigEE" to="lw60:~SNodeChangeListener" resolve="SNodeChangeListener" />
+            </node>
+          </node>
         </node>
       </node>
     </node>
+    <node concept="2tJIrI" id="6pRuvYZSL8V" role="jymVt" />
     <node concept="2tJIrI" id="1zyYLgjXY85" role="jymVt" />
     <node concept="3clFbW" id="80AXrSepRD" role="jymVt">
       <node concept="37vLTG" id="6Jg9HTa7wns" role="3clF46">
@@ -2347,7 +2358,7 @@
                           <node concept="3clFbF" id="6bUfznvlDKk" role="3cqZAp">
                             <node concept="2OqwBi" id="6bUfznvlG95" role="3clFbG">
                               <node concept="37vLTw" id="6bUfznvlDKi" role="2Oq$k0">
-                                <ref role="3cqZAo" node="6bUfznvlwzu" resolve="sNodeChangeListeners" />
+                                <ref role="3cqZAo" node="6pRuvYZSMmX" resolve="sNodeChangeListeners" />
                               </node>
                               <node concept="liA8E" id="6bUfznvlJ5W" role="2OqNvi">
                                 <ref role="37wK5l" to="33ny:~List.add(java.lang.Object)" resolve="add" />
@@ -2461,7 +2472,7 @@
             <property role="TrG5h" value="pair" />
           </node>
           <node concept="37vLTw" id="6E$AAaR80h1" role="2GsD0m">
-            <ref role="3cqZAo" node="6bUfznvlwzu" resolve="sNodeChangeListeners" />
+            <ref role="3cqZAo" node="6pRuvYZSMmX" resolve="sNodeChangeListeners" />
           </node>
           <node concept="3clFbS" id="6E$AAaR7YsT" role="2LFqv$">
             <node concept="3clFbF" id="6E$AAaR89mi" role="3cqZAp">
@@ -2510,7 +2521,7 @@
         <node concept="3clFbF" id="6E$AAaR8iWi" role="3cqZAp">
           <node concept="2OqwBi" id="6E$AAaR8lLN" role="3clFbG">
             <node concept="37vLTw" id="6E$AAaR8iWg" role="2Oq$k0">
-              <ref role="3cqZAo" node="6bUfznvlwzu" resolve="sNodeChangeListeners" />
+              <ref role="3cqZAo" node="6pRuvYZSMmX" resolve="sNodeChangeListeners" />
             </node>
             <node concept="liA8E" id="6E$AAaR8qV3" role="2OqNvi">
               <ref role="37wK5l" to="33ny:~List.clear()" resolve="clear" />
